@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     
+    <h1>Welcome to the Node.js Mailer App!</h1>
+    <form id="emailForm">
+      <label for="to">To:</label>
+      <input type="email" id="to" name="to" required>
+      <br>
+      <label for="subject">Subject:</label>
+      <input type="text" id="subject" name="subject" required>
+      <br>
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+      <br>
+      <button type="button" onclick="sendEmail()">Send Email</button>
+    </form>
+  
+    <script>
+      async function sendEmail() {
+        const to = document.getElementById('to').value;
+        const subject = document.getElementById('subject').value;
+        const message = document.getElementById('message').value;
+  
+        try {
+          const response = await fetch('http://localhost:3000/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ to, subject, message }),
+          });
+          const result = await response.json();
+          alert(result.message);
+        } catch (error) {
+          console.error(error);
+          alert('Error sending email');
+        }
+      }
+    </script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/nodemailer@6.9.7/dist/nodemailer.min.js"></script> -->
+
+</body>
+
+</html>

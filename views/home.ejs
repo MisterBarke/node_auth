@@ -1,0 +1,43 @@
+<%- include('partials/header'); -%>
+
+<h1>Welcome to the Node.js Mailer App!</h1>
+    <form id="emailForm">
+      <label for="to">To:</label>
+      <input type="email" id="to" name="to" required>
+      <br>
+      <label for="subject">Subject:</label>
+      <input type="text" id="subject" name="subject" required>
+      <br>
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+      <br>
+      <button type="button" onclick="sendEmail()">Send Email</button>
+    </form>
+  
+    <script>
+      async function sendEmail() {
+        let to = document.getElementById('to').value;
+        let subject = document.getElementById('subject').value;
+        let message = document.getElementById('message').value;
+  
+        try {
+          const response = await fetch('http://localhost:3000', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ to, subject, message }),
+            
+          });
+          const result = await response.json();
+          alert(result.message);
+          
+        } catch (error) {
+          console.error(error);
+          alert('Error sending email');
+        }
+      }
+    </script>
+
+
+<%- include('partials/footer'); -%>
